@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "750495249050",
+    "project_id": "nesom-f87cf",
+    "storage_bucket": "nesom-f87cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750495249050:android:8ac4e3888359d05190a523",
+        "android_client_info": {
+          "package_name": "com.nesom.uygulama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750495249050-je5v5rifgjlve8vdrgon9san8s5hln6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQMWsj6Bu_UTSpVRGCVizJFVH_z2VVZ-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750495249050-je5v5rifgjlve8vdrgon9san8s5hln6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
