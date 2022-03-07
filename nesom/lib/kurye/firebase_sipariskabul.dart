@@ -24,9 +24,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
   final CollectionReference _siparis =
       FirebaseFirestore.instance.collection('siparisler');
 
-  // This function is triggered when the floatting button or one of the edit buttons is pressed
-  // Adding a product if no documentSnapshot is passed
-  // If documentSnapshot != null then update an existing product
   Future<void> _createOrUpdate([DocumentSnapshot? documentSnapshot]) async {
     String action = 'create';
     if (documentSnapshot != null) {
@@ -47,7 +44,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
                 top: 20,
                 left: 20,
                 right: 20,
-                // prevent the soft keyboard from covering text fields
                 bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -89,14 +85,11 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
                     final String? telefon = _telefonController.text;
                     final String? posnakit = _posnakitController.text;
                     final String? tutar = _tutarController.text;
-                    // final double? tutar =
-                    //    double.tryParse(_tutarController.text);
                     if (restaurantname != null &&
                         adres != null &&
                         telefon != null &&
                         tutar != null) {
                       if (action == 'create') {
-                        // Persist a new product to Firestore
                         await _siparis.add({
                           "restaurant": restaurantname,
                           "adres": adres,
@@ -109,7 +102,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
                       }
 
                       if (action == 'update') {
-                        // Update the product
                         await _siparis.doc(documentSnapshot!.id).update({
                           "restaurant": restaurantname,
                           "adres": adres,
@@ -121,7 +113,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
                         });
                       }
 
-                      // Clear the text fields
                       _restaurantController.text = '';
                       _adresController.text = '';
 
@@ -129,7 +120,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
                       _tutarController.text = '';
                       _posnakitController.text = '';
 
-                      // Hide the bottom sheet
                       Navigator.of(context).pop();
                     }
                   },
@@ -140,11 +130,9 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
         });
   }
 
-  // Deleteing a product by id
   Future<void> _deleteProduct(String productId) async {
     await _siparis.doc(productId).delete();
 
-    // Show a snackbar
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Siparişi sildiniz.')));
   }
@@ -164,7 +152,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
         backgroundColor: const Color.fromARGB(255, 243, 172, 65),
         title: const Text('Sipariş ekle'),
       ),
-      // Using StreamBuilder to display all products from Firestore in real-time
       body: StreamBuilder(
         stream: _siparis.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
@@ -229,12 +216,10 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
                       width: 100,
                       child: Row(
                         children: [
-                          // Press this button to edit a single product
                           IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () =>
                                   _createOrUpdate(documentSnapshot)),
-                          // This icon button is used to delete a single product
                           IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () =>
@@ -253,7 +238,6 @@ class _FirebasesiparisgirState extends State<Firebasesiparisgir> {
           );
         },
       ),
-      // Add new product
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 243, 172, 65),
         onPressed: () => _createOrUpdate(),

@@ -19,9 +19,6 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
   final CollectionReference _noktaadi =
       FirebaseFirestore.instance.collection('kurye');
 
-  // This function is triggered when the floatting button or one of the edit buttons is pressed
-  // Adding a product if no documentSnapshot is passed
-  // If documentSnapshot != null then update an existing product
   Future<void> _createOrUpdate([DocumentSnapshot? documentSnapshot]) async {
     String action = 'create';
     if (documentSnapshot != null) {
@@ -39,7 +36,6 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
                 top: 20,
                 left: 20,
                 right: 20,
-                // prevent the soft keyboard from covering text fields
                 bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -49,14 +45,6 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'kurye adı'),
                 ),
-                /*TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _puanController,
-                  decoration: const InputDecoration(
-                    labelText: 'puan',
-                  ),
-                ),*/
                 const SizedBox(
                   height: 20,
                 ),
@@ -68,22 +56,18 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
                         5; //double.tryParse(_puanController.text);
                     if (name != null) {
                       if (action == 'create') {
-                        // Persist a new product to Firestore
                         await _noktaadi.add({"name": name, "puan": puan});
                       }
 
                       if (action == 'update') {
-                        // Update the product
                         await _noktaadi
                             .doc(documentSnapshot!.id)
                             .update({"name": name, "puan": puan});
                       }
 
-                      // Clear the text fields
                       _nameController.text = '';
                       _puanController.text = '';
 
-                      // Hide the bottom sheet
                       Navigator.of(context).pop();
                     }
                   },
@@ -94,11 +78,9 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
         });
   }
 
-  // Deleteing a product by id
   Future<void> _deleteProduct(String productId) async {
     await _noktaadi.doc(productId).delete();
 
-    // Show a snackbar
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Kafenizi sildiniz.')));
   }
@@ -109,7 +91,6 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
       appBar: AppBar(
         title: const Text('Kurye Ekle'),
       ),
-      // Using StreamBuilder to display all products from Firestore in real-time
       body: StreamBuilder(
         stream: _noktaadi.snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
@@ -127,18 +108,7 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
                     trailing: SizedBox(
                       width: 100,
                       child: Row(
-                        children: const [
-                          // Press this button to edit a single product
-                          /*IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () =>
-                                  _createOrUpdate(documentSnapshot)),*/
-                          // This icon button is used to delete a single product
-                          /*IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () =>
-                                  _deleteProduct(documentSnapshot.id)),*/
-                        ],
+                        children: const [],
                       ),
                     ),
                   ),
@@ -152,7 +122,6 @@ class _FirebasekuryeekleState extends State<Firebasekuryeekle> {
           );
         },
       ),
-      // Add new product
       floatingActionButton: FloatingActionButton(
         onPressed: () => _createOrUpdate(),
         child: const Icon(Icons.add),

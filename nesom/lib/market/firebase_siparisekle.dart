@@ -27,9 +27,6 @@ class _FirebasekuryekabulState extends State<Firebasekuryekabul> {
   final CollectionReference _sipariskayit =
       FirebaseFirestore.instance.collection('siparişkayitli');
 
-  // This function is triggered when the floatting button or one of the edit buttons is pressed
-  // Adding a product if no documentSnapshot is passed
-  // If documentSnapshot != null then update an existing product
   Future<void> _createOrUpdate([DocumentSnapshot? documentSnapshot]) async {
     String action = 'create';
     if (documentSnapshot != null) {
@@ -50,7 +47,6 @@ class _FirebasekuryekabulState extends State<Firebasekuryekabul> {
                 top: 20,
                 left: 20,
                 right: 20,
-                // prevent the soft keyboard from covering text fields
                 bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -92,8 +88,7 @@ class _FirebasekuryekabulState extends State<Firebasekuryekabul> {
                     final String? telefon = _telefonController.text;
                     final String? posnakit = _posnakitController.text;
                     final String? tutar = _tutarController.text;
-                    // final double? tutar =
-                    //    double.tryParse(_tutarController.text);
+
                     if (restaurantname != null &&
                         adres != null &&
                         telefon != null &&
@@ -154,8 +149,7 @@ class _FirebasekuryekabulState extends State<Firebasekuryekabul> {
   }
 
   Future<void> _finishedProduct(String productId) async {
-    await //_siparis.doc(productId).delete();
-        _siparis.doc(productId).update({"siparişdurumu": 'teslimedildi'});
+    await _siparis.doc(productId).update({"siparişdurumu": 'teslimedildi'});
 
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Siparişi aldınız.')));
@@ -264,12 +258,6 @@ class _FirebasekuryekabulState extends State<Firebasekuryekabul> {
           );
         },
       ),
-
-      /*floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromARGB(255, 243, 172, 65),
-        onPressed: () => _createOrUpdate(),
-        child: const Icon(Icons.add),
-      ),*/
     );
   }
 
